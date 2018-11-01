@@ -1,0 +1,45 @@
+version: '2.3'
+
+services:
+  grouplife:
+    image: scblifedevelopment/scblife:grouplife-v0.7
+    volumes:
+      - ./config/appsettings.json:/app/appsettings.json
+    ports:
+      - 80:80
+      - 443:443
+    #expose:
+    #  - "80"
+    #  - "443"
+    restart: always
+    #environment:
+    #  ASPNETCORE_URLS:  http://+:80
+    #  ASPNETCORE_PKG_VERSION:  2.0.8
+
+
+  databasegl:
+    image: mariadb
+    restart: always
+   # volumes:
+   #   - ./config/dbdata:/var/lib/mysql
+   #   - ./config/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    ports:
+      - 3306:3306
+    expose:
+      - "3306"
+    environment:
+      - "MYSQL_DATABASE=GroupLife"
+      - "MYSQL_USER=grouplifeadmin"
+      - "MYSQL_PASSWORD=KGbew3aIyl5tci82PTH"
+      - "MYSQL_ROOT_PASSWORD=KGbew3aIyl5tci82PTH"
+
+  adminer:
+   image: adminer
+   restart: always
+   ports:
+     - 8089:8080
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
